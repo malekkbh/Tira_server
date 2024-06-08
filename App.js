@@ -2,10 +2,12 @@ const express = require("express");
 var cors = require("cors");
 const mongoose = require("mongoose");
 const USER_MODEL = require("./API/models/user.model");
+const Routes = require("./API/routes/Routes");
 // const Routs = require("./api/routes/Router");
 const app = express();
 app.use(express.json());
 app.use(cors());
+app.use("/", Routes);
 
 const mongooseLink =
   "mongodb+srv://malekkbh:123456780@cluster0.fju39hf.mongodb.net/";
@@ -36,13 +38,15 @@ app.post("/whatsMyName", (req, res) => {
 });
 
 app.post("/ceateNewUser", (req, res) => {
-  const { phone, name, age, points } = req.body;
+  const { phone, name, age, points, userName, pass } = req.body;
 
   USER_MODEL.create({
     phone: phone,
     name: name,
     age,
     points,
+    userName,
+    pass,
   })
     .then((createRes) => {
       res.status(200).json({
@@ -58,13 +62,12 @@ app.post("/ceateNewUser", (req, res) => {
 });
 
 app.get("/getAllUsers", (req, res) => {
-  USER_MODEL.findById({name:"RNA"})
+  USER_MODEL.findById({ name: "RNA" })
     .then((users) => {
       res.status(200).json({ users });
     })
     .catch((e) =>
-      res.status(500)
-    .json({ error: true, errorMessage: e.message })
+      res.status(500).json({ error: true, errorMessage: e.message })
     );
 });
 

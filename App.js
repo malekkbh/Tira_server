@@ -62,7 +62,7 @@ app.post("/ceateNewUser", (req, res) => {
 });
 
 app.get("/getAllUsers", (req, res) => {
-  USER_MODEL.findById({ name: "RNA" })
+  USER_MODEL.find()
     .then((users) => {
       res.status(200).json({ users });
     })
